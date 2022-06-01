@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
-        
-        <title>Weather</title>
+        <title>Weather App</title>
     </head>
     <body>
-         <div class="app-wrap">
-    <header>
-      <input type="text" autocomplete="off" class="search-box" placeholder="Search for a city..." />
-    </header>
-    <main>
-      <section class="location">
-        <div class="city">Northampton, GB</div>
-        <div class="date">Thursday 10 January 2020</div>
-      </section>
-      <div class="current">
-        <div class="temp">15<span>°c</span></div>
-        <div class="weather">Sunny</div>
-        <div class="hi-low">13°c / 16°c</div>
-      </div>
-    </main>
+        <div class="app-wrap">
+            <header>
+                <input type="text" class="search-box" placeholder="Search for a city..." />
+            </header>
+            <main>
+                <section class="location">
+                    <div class="city">City</div>
+                    <div class="date">Date</div>
+                </section>
+                <div class="current">
+                    <div class="temp"><span>Temperature</span></div>
+                    <div class="weather">Weather</div>
+                    <div class="hi-low">High / Low</div>
+                </div>
+            </main>
+        </div>
+        <script type="module" src="index.js"></script>
     </body>
-    <script src="index.js"></script>
 </html>
 
 
