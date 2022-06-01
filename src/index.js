@@ -1,32 +1,50 @@
-const temp = document.getElementById('temperature')
-const time = document.getElementById('time')
-const weatherCode = document.getElementById('weathercode')
-const windDirection = document.getElementById('winddirection')
-const windSpeed = document.getElementById('windspeed')
-let weather;
+const api = {
+    key: ,
+    base: "https://api.openweathermap.org/data/2.5/"
+} // figure out how to hide this later... why doesnt require dotenv work
 
+const searchbox = document.querySelector('.search-box');
 
+searchbox.addEventListener('keypress', search);
 
-
-fetch('https://api.open-meteo.com/v1/forecast?latitude=40.72&longitude=-73.95&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,sunrise,sunset,precipitation_hours&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York')
-.then(res => res.json())
-.then(weatherObj => {
-    console.log(weatherObj)
-    showWeather(weatherObj);
-    
-    //console.log(weatherObj.current_weather.temperature) //87
-    //temp.textContent = weatherObj.current_weather.temperature; //null ???
-
-
-})
-
-
-function showWeather(weatherObj) {
-    weather = weatherObj;
-    temp.textContent =  weatherObj.current_weather.temperature;
-    time.textContent =  weatherObj.current_weather.time;
-    weatherCode.textContent = weatherObj.current_weather.weathercode;
-    windDirection.textContent = weatherObj.current_weather.winddirection;
-    windSpeed.textContent = weatherObj.current_weather.windspeed;
+function search(evt) {
+    if (evt.keyCode == 13) {
+    getResults(searchbox.value);
+    }
 }
 
+function getResults(query) {
+    fetch(`${api.base}weather?q=${query}&units=imperial&APPID=${api.key}`)
+    .then(weather => weather.json())
+    .then(displayResults);
+}
+
+function displayResults (weather) {
+    let city = document.querySelector('.location .city');
+    city.innerText = `${weather.name}, ${weather.sys.country}`;
+
+    let now = new Date();
+    let date = document.querySelector('.location .date');
+    date.innerText = dateBuilder(now);
+
+    let temp = document.querySelector('.current .temp');
+    temp.innerHTML = `${Math.round(weather.main.temp)}<span>°F</span>`;
+
+    let weather_el = document.querySelector('.current .weather');
+    weather_el.innerText = weather.weather[0].main;
+
+    let hilow = document.querySelector('.hi-low');
+    hilow.innerText = `${Math.round(weather.main.temp_min)}°F / ${Math.round(weather.main.temp_max)}°F`;
+}
+
+function dateBuilder (d) {
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    let day = days[d.getDay()];
+    let date = d.getDate();
+    let month = months[d.getMonth()];
+    let year = d.getFullYear();
+
+    return `${day} ${date} ${month} ${year}`;
+}
