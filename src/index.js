@@ -1,5 +1,5 @@
 const api = {
-    key: ,
+    key: '169257ac30ede61e7544309220216e0a',
     base: "https://api.openweathermap.org/data/2.5/"
 } // figure out how to hide this later... why doesnt require dotenv work
 
